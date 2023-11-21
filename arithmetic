@@ -1,0 +1,119 @@
+// -*- C++ -*-
+//--->Arithmetics functions<---//
+/*Made by Wahh R. S.*/
+#ifndef ARITHMETIC_
+#define ARITHMETIC_
+#include <cmath>
+#include "../WCore/WCore"
+namespace wrs
+{
+	// WRS namespace
+	double bsqrt(double n)
+	{
+		double guess, r;
+		  guess = n / 2;
+		for (int i = 0; i < 10; i++)
+		{
+			r = n / guess;
+			guess = (guess + r) / 2;
+		}
+		return guess;
+	}
+
+	int gcd(int a, int b)
+	{
+		while (b != 0)
+		{
+			int t = b;
+			b = a % b;
+			a = t;
+		} return a;
+	}
+
+	bool convertToLowestTerms(int &numerator, int &denominator)
+	{
+		int greatest = gcd(numerator, denominator);
+		numerator /= greatest;
+		denominator /= greatest;
+		return denominator == 0 ? false : true;
+	}
+
+	// the fibonacci sequence starts on 0.
+	int goldenSequence(int n)
+	{
+
+		int previous = 0, target = 1, number;
+		for (int i = 1; i <= n; ++i)
+		{
+			if (i == 1)
+			{
+				return previous;
+			}
+			if (i == 2)
+			{
+				return target;
+			}
+			number = previous + target;
+			previous = target;
+			target = number;
+		}
+		return number;
+	}
+
+	bool isPrime(int num)
+	{
+		for (int i = 2; i < num; i++)
+			if (num % i == 0)
+				return false;
+			else;
+		return true;
+	}
+
+	double PAn(double A1, int n, double r)
+	{
+		return A1 + ((n - 1) * r);
+	}
+
+	double maPA(double Ak, double r)
+	{
+		return ((Ak - r) + (Ak + r)) / 2;
+	}
+
+	double sumPA(double A1, int n, double r)
+	{
+		double An = PAn(A1, n, r);
+		return ((A1 + An) * n) / 2;
+	}
+
+	double PGn(double A1, int n, double q)
+	{
+		return A1 * pow(q, n - 1);
+	}
+
+	double modPG(double Ak, double q)
+	{
+		return sqrt((Ak / q) * (Ak * q));
+	}
+
+	double sumPG(double A1, int n, double q)
+	{
+		return A1 * ((pow(q, n) - 1) / (q - 1));
+	}
+
+	double sumPGinf(double A1, int n, double q)
+	{
+		return A1 / (1 - q);
+	}
+
+	double prodPG(double A1, int n, double q)
+	{
+		double An = PGn(A1, n, q);
+		return sqrt(pow(A1 * An, n));
+	}
+
+#include "statistic"
+#include "trigonometry"
+}
+
+	// WRS namespace
+#endif /*ARITHMETIC_*/
