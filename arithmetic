@@ -4,9 +4,6 @@
 
 // **Include Necessary Libraries**
 #include <cmath>
-#include "../WCore/WCore.h"
-#include "statistic.h"
-#include "trigonometry.h"
 
 namespace wrs
 {
@@ -118,9 +115,90 @@ bool isPrime(int num) {
 double PAn(double A1, int n, double r) {
   return A1 + ((n - 1) * r);
 }
+// **Function Name:** maPA
+// **Description:** Calculates the median of an arithmetic progression (A.P.).
+// **Input:**  double Ak - The kth term of the A.P.
+//         double r - The common difference of the A.P.
+// **Output:** double - The median of the A.P.
+double maPA(double Ak, double r) {
+  // Calculate the middle term of the A.P.
+  return ((Ak - r) + (Ak + r)) / 2;
+}
 
 /*
-* **Function Name:** maPA
-* **Description:**  Calculates the median of an arithmetic progression (A.P.).
-* **Input:**  double Ak - The kth term of the A.P.
-*         double
+* **Function Name:** sumPA
+* **Description:**  Calculates the sum of an arithmetic progression (A.P.).
+* **Input:**  double A1 - The first term of the A.P.
+*         int n - The index of the last term of the A.P.
+*         double r - The common difference of the A.P.
+* **Output:** double - The sum of the A.P.
+*/
+double sumPA(double A1, int n, double r) {
+  // Calculate the nth term of the A.P.
+  double An = PAn(A1, n, r);
+
+  // Use the formula for the sum of an A.P.
+  return ((A1 + An) * n) / 2;
+}
+
+/*
+* **Function Name:** PGn
+* **Description:**  Calculates the nth term of a geometric progression (G.P.).
+* **Input:**  double A1 - The first term of the G.P.
+*         int n - The index of the term to calculate.
+*         double q - The common ratio of the G.P.
+* **Output:** double - The nth term of the G.P.
+*/
+double PGn(double A1, int n, double q) {
+  // Use the formula for the nth term of a G.P.
+  return A1 * pow(q, n - 1);
+}
+
+/*
+* **Function Name:** modPG
+* **Description:**  Calculates the mean of an infinite geometric progression (G.P.).
+* **Input:**  double Ak - The kth term of the G.P.
+*         double q - The common ratio of the G.P.
+* **Output:** double - The mean of the infinite G.P.
+*/
+double modPG(double Ak, double q) {
+  // Use the formula for the mean of an infinite G.P.
+  return sqrt((Ak / q) * (Ak * q));
+}
+
+/*
+* **Function Name:** sumPG
+* **Description:**  Calculates the sum of a finite geometric progression (G.P.).
+* **Input:**  double A1 - The first term of the G.P.
+*         int n - The index of the last term of the G.P.
+*         double q - The common ratio of the G.P.
+* **Output:** double - The sum of the G.P.
+*/// **Function Name:** sumPGinf
+// **Description:** Calculates the sum of an infinite geometric progression (G.P.).
+// **Input:**  double A1 - The first term of the G.P.
+//         int n - The index of the last term of the G.P.
+//         double q - The common ratio of the G.P.
+// **Output:** double - The sum of the infinite G.P.
+double sumPGinf(double A1, int n, double q) {
+  // Use the formula for the sum of an infinite G.P.
+  return A1 / (1 - q);
+}
+
+/*
+* **Function Name:** prodPG
+* **Description:**  Calculates the product of a finite geometric progression (G.P.).
+* **Input:**  double A1 - The first term of the G.P.
+*         int n - The index of the last term of the G.P.
+*         double q - The common ratio of the G.P.
+* **Output:** double - The product of the G.P.
+*/
+double prodPG(double A1, int n, double q) {
+  // Calculate the nth term of the G.P.
+  double An = PGn(A1, n, q);
+
+  // Use the formula for the product of a G.P.
+  return sqrt(pow(A1 * An, n));
+}
+} // namespace wrs
+
+#endif /*ARITHMETIC_*/
