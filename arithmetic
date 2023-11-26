@@ -1,7 +1,8 @@
 // -*- C++ -*-
 // **Arithmetic Functions**
 // **Author:** Wahh R. S.
-
+#ifndef ARITHMETIC_
+#define ARITHMETIC_
 // **Include Necessary Libraries**
 #include <cmath>
 
