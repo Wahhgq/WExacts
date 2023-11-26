@@ -165,15 +165,7 @@ double modPG(double Ak, double q) {
   // Use the formula for the mean of an infinite G.P.
   return sqrt((Ak / q) * (Ak * q));
 }
-
 /*
-* **Function Name:** sumPG
-* **Description:**  Calculates the sum of a finite geometric progression (G.P.).
-* **Input:**  double A1 - The first term of the G.P.
-*         int n - The index of the last term of the G.P.
-*         double q - The common ratio of the G.P.
-* **Output:** double - The sum of the G.P.
-*/// **Function Name:** sumPGinf
 // **Description:** Calculates the sum of an infinite geometric progression (G.P.).
 // **Input:**  double A1 - The first term of the G.P.
 //         int n - The index of the last term of the G.P.
