@@ -1,119 +1,126 @@
 // -*- C++ -*-
-//--->Arithmetics functions<---//
-/*Made by Wahh R. S.*/
-#ifndef ARITHMETIC_
-#define ARITHMETIC_
+// **Arithmetic Functions**
+// **Author:** Wahh R. S.
+
+// **Include Necessary Libraries**
 #include <cmath>
-#include "../WCore/WCore"
+#include "../WCore/WCore.h"
+#include "statistic.h"
+#include "trigonometry.h"
+
 namespace wrs
 {
-	// WRS namespace
-	double bsqrt(double n)
-	{
-		double guess, r;
-		  guess = n / 2;
-		for (int i = 0; i < 10; i++)
-		{
-			r = n / guess;
-			guess = (guess + r) / 2;
-		}
-		return guess;
-	}
+// **WRS Namespace**
 
-	int gcd(int a, int b)
-	{
-		while (b != 0)
-		{
-			int t = b;
-			b = a % b;
-			a = t;
-		} return a;
-	}
+/*
+* **Function Name:**  bsqrt
+* **Description:**  Calculates the square root of a number using the Babylonian method.
+* **Input:**  double n - The number to calculate the square root of.
+* **Output:** double - The square root of the input number.
+*/
+double bsqrt(double n) {
+  // Initialize variables
+  double guess = n / 2;
+  double r;
 
-	bool convertToLowestTerms(int &numerator, int &denominator)
-	{
-		int greatest = gcd(numerator, denominator);
-		numerator /= greatest;
-		denominator /= greatest;
-		return denominator == 0 ? false : true;
-	}
+  // Refine the approximation using the Babylonian method
+  for (int i = 0; i < 10; i++) {
+    r = n / guess;
+    guess = (guess + r) / 2;
+  }
 
-	// the fibonacci sequence starts on 0.
-	int goldenSequence(int n)
-	{
-
-		int previous = 0, target = 1, number;
-		for (int i = 1; i <= n; ++i)
-		{
-			if (i == 1)
-			{
-				return previous;
-			}
-			if (i == 2)
-			{
-				return target;
-			}
-			number = previous + target;
-			previous = target;
-			target = number;
-		}
-		return number;
-	}
-
-	bool isPrime(int num)
-	{
-		for (int i = 2; i < num; i++)
-			if (num % i == 0)
-				return false;
-			else;
-		return true;
-	}
-
-	double PAn(double A1, int n, double r)
-	{
-		return A1 + ((n - 1) * r);
-	}
-
-	double maPA(double Ak, double r)
-	{
-		return ((Ak - r) + (Ak + r)) / 2;
-	}
-
-	double sumPA(double A1, int n, double r)
-	{
-		double An = PAn(A1, n, r);
-		return ((A1 + An) * n) / 2;
-	}
-
-	double PGn(double A1, int n, double q)
-	{
-		return A1 * pow(q, n - 1);
-	}
-
-	double modPG(double Ak, double q)
-	{
-		return sqrt((Ak / q) * (Ak * q));
-	}
-
-	double sumPG(double A1, int n, double q)
-	{
-		return A1 * ((pow(q, n) - 1) / (q - 1));
-	}
-
-	double sumPGinf(double A1, int n, double q)
-	{
-		return A1 / (1 - q);
-	}
-
-	double prodPG(double A1, int n, double q)
-	{
-		double An = PGn(A1, n, q);
-		return sqrt(pow(A1 * An, n));
-	}
-
-#include "statistic"
-#include "trigonometry"
+  return guess;
 }
 
-	// WRS namespace
-#endif /*ARITHMETIC_*/
+/*
+* **Function Name:** gcd
+* **Description:**  Calculates the greatest common divisor (GCD) of two integers using the Euclidean algorithm.
+* **Input:**  int a, int b - The two integers to calculate the GCD of.
+* **Output:** int - The GCD of the input integers.
+*/
+int gcd(int a, int b) {
+  while (b != 0) {
+    int t = b;
+    b = a % b;
+    a = t;
+  }
+
+  return a;
+}
+
+/*
+* **Function Name:** convertToLowestTerms
+* **Description:**  Converts a fraction to its lowest terms by dividing both the numerator and denominator by their greatest common divisor (GCD).
+* **Input:**  int &numerator, int &denominator - The numerator and denominator of the fraction to convert.
+* **Output:** bool - True if the conversion was successful, false if the denominator is zero.
+*/
+bool convertToLowestTerms(int &numerator, int &denominator) {
+  int greatest = gcd(numerator, denominator);
+
+  // Divide both numerator and denominator by the GCD
+  numerator /= greatest;
+  denominator /= greatest;
+
+  return denominator == 0 ? false : true;
+}
+
+/*
+* **Function Name:** goldenSequence
+* **Description:**  Calculates the nth Fibonacci number using a recursive approach.
+* **Input:**  int n - The index of the Fibonacci number to calculate.
+* **Output:** int - The nth Fibonacci number.
+*/
+int goldenSequence(int n) {
+  // Initialize variables
+  int previous = 0, target = 1, number;
+
+  // Calculate the Fibonacci sequence using recursion
+  for (int i = 1; i <= n; ++i) {
+    if (i == 1) {
+      return previous;
+    } else if (i == 2) {
+      return target;
+    }
+
+    number = previous + target;
+    previous = target;
+    target = number;
+  }
+
+  return number;
+}
+
+/*
+* **Function Name:** isPrime
+* **Description:**  Checks whether an integer is prime or not.
+* **Input:**  int num - The integer to check for primality.
+* **Output:** bool - True if the input integer is prime, false otherwise.
+*/
+bool isPrime(int num) {
+  // Check if the number is divisible by any number between 2 and itself (exclusive)
+  for (int i = 2; i < num; i++) {
+    if (num % i == 0) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+/*
+* **Function Name:** PAn
+* **Description:**  Calculates the nth term of an arithmetic progression (A.P.).
+* **Input:**  double A1 - The first term of the A.P.
+*         int n - The index of the term to calculate.
+*         double r - The common difference of the A.P.
+* **Output:** double - The nth term of the A.P.
+*/
+double PAn(double A1, int n, double r) {
+  return A1 + ((n - 1) * r);
+}
+
+/*
+* **Function Name:** maPA
+* **Description:**  Calculates the median of an arithmetic progression (A.P.).
+* **Input:**  double Ak - The kth term of the A.P.
+*         double
