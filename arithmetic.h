@@ -1,8 +1,8 @@
 // -*- C++ -*-
 // **Arithmetic Functions**
 // **Author:** Wahh R. S.
-#ifndef ARITHMETIC_
-#define ARITHMETIC_
+#ifndef ARITHMETIC_H  
+#define ARITHMETIC_H
 // **Include Necessary Libraries**
 #include <cmath>
 
@@ -194,4 +194,4 @@ double prodPG(double A1, int n, double q) {
 }
 } // namespace wrs
 
-#endif /*ARITHMETIC_*/
+#endif /*ARITHMETIC_H*/
