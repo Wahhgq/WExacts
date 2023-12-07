@@ -1,0 +1,209 @@
+// -*- C++ -*-
+//--->WMatrix list<---//
+/*Made by Wahh R. S.*/
+#ifndef WMATRIX_
+#define WMATRIX_
+#include <vector>
+#include <cmath>
+#include <iomanip>
+#include "../WCore/wrs"
+namespace wrs
+{
+	using std::vector;
+	using std::pow;
+	using std::setw;
+	using std::ostream;
+	using std::istream;
+	template < class T > class matrix
+	{
+		vector < vector < T >> MATRIX;
+	  public:
+		matrix();
+		matrix(const matrix < T > &);
+		  matrix(int, int);
+		const int line() const;
+		const int column() const;
+		int erase_line(int);
+		int erase_column(int);
+		T det() const;
+		T cof(int, int) const;
+		T getElement(int, int) const;
+		void setElement(int, int, const T &);
+		  template < class U > friend bool operator ==(const matrix < U > &, const matrix < U > &);
+		  template < class U > friend ostream & operator <<(ostream &, const matrix < U > &);
+		  template < class U > friend istream & operator >>(istream &, matrix < U > &);
+		const matrix < T > operator +(const matrix < T > &) const;
+		const matrix < T > operator -(const matrix < T > &) const;
+		const matrix < T > operator *(const matrix < T > &) const;
+		const matrix < T > operator *(const T &) const;
+		const matrix < T > operator   -() const;
+		  vector < T > &operator [] (int);
+		const vector < T > &operator[] (int)const;
+	};
+	template < class T > matrix < T >::matrix()
+	{
+		MATRIX.push_back(vector < T > ());
+		MATRIX[0].push_back(T());
+	}
+	template < class T > matrix < T >::matrix(const matrix < T > &another):MATRIX(another.MATRIX)
+	{
+	}
+	template < class T > matrix < T >::matrix(int m, int n)
+	{
+		for (int i = 0; i < m; i++)
+		{
+			MATRIX.push_back(vector < T > ());
+			for (int j = 0; j < n; j++)
+				MATRIX[MATRIX.size() - 1].push_back(T());
+		}
+	}
+	template < class T > const int matrix < T >::line() const
+	{
+		return MATRIX.size();
+	}
+	template < class T > const int matrix < T >::column() const
+	{
+		return MATRIX[0].size();
+	}
+	template < class T > int matrix < T >::erase_line(int index)
+	{
+		MATRIX.erase(MATRIX.begin() + index);
+		return MATRIX.capacity();
+	}
+	template < class T > int matrix < T >::erase_column(int index)
+	{
+		for (int i = 0; i < MATRIX.size(); i++)
+		{
+			MATRIX[i].erase(MATRIX[i].begin() + index);
+		}
+		return MATRIX[0].capacity();
+	}
+	template < class T > T matrix < T >::det()const
+	{
+		T determinant;
+		if (line() == column() && line() == 1)
+		{
+			determinant = MATRIX[0][0];
+		}
+		else if (line() == column() && line() == 2)
+		{
+			determinant = (MATRIX[0][0] * MATRIX[1][1]) - (MATRIX[0][1] * MATRIX[1][0]);
+		}
+		else if (line() == column() && line() >= 2)
+		{
+			determinant = T();
+			for (int i = 0; i < column(); i++)
+			{
+				determinant += MATRIX[0][i] * cof(0, i);
+			}
+		}
+		return determinant;
+	}
+	template < class T > T matrix < T >::cof(int i, int j)const
+	{
+		matrix < T > DOWN(*this);
+		DOWN.erase_line(i);
+		DOWN.erase_column(j);
+		return pow(-1, (i + j)) * DOWN.det();
+	}
+	template < class T > T matrix < T >::getElement(int i, int j) const
+	{
+		return MATRIX[i][j];
+	}
+	template < class T > void matrix < T >::setElement(int i, int j, const T & element)
+	{
+		MATRIX[i][j] = element;
+	}
+
+	template < class T > bool operator ==(const matrix < T > &A, const matrix < T > &B)
+	{
+		if (A.line() == B.line() && A.column() == B.column())
+		{
+			for (int i = 0; i < A.line(); i++)
+			{
+				for (int j = 0; j < A.column(); j++)
+				{
+					if (A[i][j] != B[i][j])
+						return false;
+					else;
+				}
+			}
+			return true;
+		}
+		else
+			return false;
+	}
+	template < class U > ostream & operator <<(ostream & out, const matrix < U > &o)
+	{
+		// TEMPORARY
+		for (int i = 0; i < o.line(); i++)
+		{
+			out << '|';
+			for (int j = 0; j < o.column(); j++)
+				out << setw(4) << o[i][j];
+			out << setw(1) << '|' << endl;
+		}
+		return out;
+	}
+	template < class T > istream & operator >>(istream & in, matrix < T > &o)
+	{
+		for (int i = 0; i < o.line(); i++)
+			for (int j = 0; j < o.column(); j++)
+				in >> o.MATRIX[i][j];
+		return in;
+	}
+	template < class T > const matrix < T > matrix < T >::operator +(const matrix < T > &B) const
+	{
+		int m(line()), n(column());
+		  matrix < T > C(m, n);
+		for (int i = 0; i < m; i++)
+		{
+			for (int j = 0; j < n; j++)
+			{
+				C[i][j] = MATRIX[i][j] + B[i][j];
+			}
+		}
+		return C;
+	}
+	template < class T > const matrix < T > matrix < T >::operator *(const matrix < T > &B) const
+	{
+		// m == n.
+		int m(line()), n(B.column()), p(B.line());
+		  matrix < T > C(m, n);
+		for (int i = 0; i < m; i++)
+			for (int j = 0; j < n; j++)
+				for (int k = 0; k < p; k++)
+					  C[i][j] += MATRIX[i][k] * B[k][j];
+		  return C;
+	}
+	template < class T > const matrix < T > matrix < T >::operator -(const matrix < T > &B) const
+	{
+		return *this + (-B);
+	}
+	template < class T > const matrix < T > matrix < T >::operator -() const
+	{
+		matrix < T > B(line(), column());
+		for (int i = 0; i < line(); i++)
+			for (int j = 0; j < column(); j++)
+				B[i][j] = -MATRIX[i][j];
+		return B;
+	}
+	template < class T > const matrix < T > matrix < T >::operator *(const T & o) const
+	{
+		matrix < T > B(line(), column());
+		for (int i = 0; i < line(); i++)
+			for (int j = 0; j < column(); j++)
+				B[i][j] = o * MATRIX[i][j];
+		return B;
+	}
+	template < class T > vector < T > &matrix < T >::operator [] (int index)
+	{
+		return MATRIX[index];
+	}
+	template < class T > const vector < T > &matrix < T >::operator[] (int index)const
+	{
+		return MATRIX[index];
+	}
+}
+	// WRS namespace
+#endif /* WMatrix */
